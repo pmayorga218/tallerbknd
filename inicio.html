@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tienda en Línea</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(247, 159, 49);
+            color: white;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            margin-bottom: 20px;
+        }
+        .menu-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: purple;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .menu-link:hover {
+            background-color: #9c27b0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .product {
+            background-color: purple;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px;
+            width: calc(33% - 30px);
+            box-sizing: border-box;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        }
+        .product-image {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .product-image img {
+            width: 100%;
+            height: auto;
+        }
+        .price {
+            font-size: 20px;
+            color: yellow;
+        }
+        .cart-button {
+            display: block;
+            width: auto;
+            padding: 10px 20px;
+            background-color: white;
+            color: purple;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .cart-button:hover {
+            background-color: purple;
+            color: white;
+        }
+    </style>
+    <script>
+        function addToCart(productName, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let found = cart.find(item => item.productName === productName);
+            if (found) {
+                found.quantity++;
+            } else {
+                cart.push({ productName, price, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(productName + ' ha sido añadido al carrito.');
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="https://unired.edu.co/images/instituciones/LOGOS/Logo_Universidad_Aut%C3%B3noma_de_Bucaramanga_UNAB.jpg" alt="Logo UNAB" class="logo">
+        <div>
+            <a href="inicio.html" class="menu-link">Inicio</a>
+            <a href="carro.html" class="menu-link">Carrito</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Producto 1 -->
+        <div class="product">
+            <div class="product-image">
+                <img src="https://gmedia.playstation.com/is/image/SIEPDC/ps4-pro-product-thumbnail-01-en-14sep21?$facebook$" alt="PS4 Pro" style="width:100%;height:100%;">
+            </div>
+            <h2>Producto 1</h2>
+            <p>Descripción del producto 1.</p>
+            <p class="price">$19.99</p>
+            <button onclick="addToCart('Producto 1', 19.99)" class="cart-button">Añadir al Carrito</button>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="product">
+            <div class="product-image">
+                <img src="https://exitocol.vtexassets.com/arquivos/ids/7234186/consola-xbox-series-x-1tb-microsoft.jpg?v=637532554326130000" alt="Xbox Series X" style="width:100%;height:100%;">
+            </div>
+            <h2>Producto 2</h2>
+            <p>Descripción del producto 2.</p>
+            <p class="price">$29.99</p>
+            <button onclick="addToCart('Producto 2', 29.99)" class="cart-button">Añadir al Carrito</button>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="product">
+            <div class="product-image">
+                <img src="https://http2.mlstatic.com/D_NQ_NP_932200-MLA54147001786_032023-O.webp" alt="Producto 3" style="width:100%;height:100%;">
+            </div>
+            <h2>Producto 3</h2>
+            <p>Descripción del producto 3.</p>
+            <p class="price">$34.99</p>
+            <button onclick="addToCart('Producto 3', 34.99)" class="cart-button">Añadir al Carrito</button>
+        </div>
+
+        <!-- Producto 4 -->
+        <div class="product">
+            <div class="product-image">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsArmYlLDERS2lpjK4LnlVR8xPj3Yl7JWbAuPqkP_9cA&s" alt="Producto 4" style="width:100%;height:100%;">
+            </div>
+            <h2>Producto 4</h2>
+            <p>Descripción del producto 4.</p>
+            <p class="price">$39.99</p>
+            <button onclick="addToCart('Producto 4', 39.99)" class="cart-button">Añadir al Carrito</button>
+        </div>
+    </div>
+</body>
+</html>

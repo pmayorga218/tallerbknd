@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carrito de Compras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(247, 159, 49);
+            color: white;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .menu-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: purple;
+            border-radius: 5px;
+        }
+        .cart-container {
+            background-color: purple;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .cart-item {
+            border-bottom: 1px solid white;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .item-name {
+            font-size: 18px;
+        }
+        .item-price {
+            color: yellow;
+        }
+        .quantity-input {
+            width: 50px;
+            margin: 0 10px;
+        }
+        .eliminar-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .eliminar-btn:hover {
+            background-color: darkred;
+        }
+        .comprar-btn {
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .comprar-btn:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="inicio.html" class="menu-link">Inicio</a>
+        <a href="carro.html" class="menu-link">Carrito</a>
+    </div>
+
+    <div class="cart-container">
+        <h2>Tu Carrito de Compras</h2>
+        <div id="cart-items">
+            <!-- Los productos del carrito se mostrarán aquí -->
+        </div>
+        <button onclick="finalizarCompra()" class="comprar-btn">Comprar</button>
+    </div>
+
+    <script>
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cartItems.innerHTML = ''; // Limpiar los elementos existentes
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <span class="item-name">${item.productName}</span>
+                    <input class="quantity-input" type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${index}, this.value)">
+                    <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+                    <button onclick="removeFromCart(${index})" class="eliminar-btn">Eliminar</button>
+                `;
+                cartItems.appendChild(itemElement);
+                total += item.price * item.quantity;
+            });
+
+            if(cart.length === 0) {
+                cartItems.innerHTML = '<p>Tu carrito está vacío.</p>';
+            } else {
+                // Mostrar total
+                const totalElement = document.createElement('div');
+                totalElement.className = 'cart-item';
+                totalElement.innerHTML = `<strong>Total:</strong><span class="item-price">$${total.toFixed(2)}</span>`;
+                cartItems.appendChild(totalElement);
+            }
+        }
+
+        function removeFromCart(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+        }
+
+        function updateQuantity(index, quantity) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart[index]) {
+                cart[index].quantity = Number(quantity);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart();
+            }
+        }
+
+        function finalizarCompra() {
+            alert("Compra exitosa. Gracias por su compra!");
+            localStorage.clear();
+            updateCart();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCart);
+    </script>
+</body>
+</html>
